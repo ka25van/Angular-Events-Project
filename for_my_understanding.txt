@@ -1,0 +1,54 @@
+Necessity of Various Modules
+1.CORS (Cross-Origin Resource Sharing)
+
+Necessity: Allows your server to accept requests from different origins (domains).
+Use Case: If your frontend is hosted on a different domain than your backend, CORS is necessary to enable communication between them.
+Example: Your Angular frontend hosted on http://localhost:4200 needs to make API calls to your backend hosted on http://localhost:3000.
+app.use(cors({
+    origin: 'http://localhost:4200'
+}));
+
+2.Helmet
+
+Necessity: Helps secure your Express app by setting various HTTP headers.
+Use Case: Protects your app from some well-known web vulnerabilities by setting HTTP headers appropriately.
+Example: Prevents clickjacking by setting the X-Frame-Options header.
+
+3.Server (HTTP Server)
+
+Necessity: Required to create an HTTP server to handle incoming requests.
+Use Case: Allows you to attach your Express app to an HTTP server, enabling it to listen for requests.
+Example: const server = require('http').createServer(app); creates an HTTP server that can handle requests.
+const server = require('http').createServer(app);
+server.listen(3000, () => {
+    console.log('Server is running on port 3000');
+});
+
+4.Redis
+
+Necessity: In-memory data structure store, used as a database, cache, and message broker.
+Use Case: Useful for caching, session management, and real-time analytics.
+Example: Storing user session data to reduce database load and improve performance.
+const redisClient = redis.createClient();
+redisClient.set('key', 'value', redis.print);
+
+5.Queue (Bull)
+
+Necessity: A job queue implementation for processing jobs asynchronously.
+Use Case: Useful for background processing of tasks like sending emails, processing images, etc.
+Example: Adding a job to the queue to send a welcome email to a new user without blocking the main thread.
+const jobQueue = new Queue('jobQueue', { redis: { host: '127.0.0.1', port: 6379 } });
+jobQueue.add({ email: 'user@example.com' });
+
+6.Request (Supertest)
+
+Necessity: Library for testing HTTP endpoints.
+Use Case: Useful for writing tests to ensure your API endpoints are working correctly.
+Example: Writing a test to check if the /login endpoint returns a 200 status code.
+const request = require('supertest');
+request(app)
+    .get('/login')
+    .expect(200)
+    .end((err, res) => {
+        if (err) throw err;
+    });
